@@ -15,6 +15,16 @@ st.set_page_config(
     }
 )
 
+
+# Initializing Session state
+
+if 'authenticated' not in st.session_state:
+    st.session_state['authenticated'] = False
+
+if 'username' not in st.session_state:
+    st.session_state['username'] = 'Undefined'
+
+st.write(st.session_state)
 # Load configuration
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -30,6 +40,7 @@ authenticator = stauth.Authenticate(
 
 # Main Page Layout
 def main():
+    st.logo("logo.png")
     st.title("Welcome to MindfulNest 🧘‍♂️🧘‍♀️")
     st.markdown("""
     ## Your Personalized Mental Health Companion 🌼
@@ -40,7 +51,7 @@ def main():
     col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("Login 🔐"):
-            login()
+            st.switch_page("pages/login.py")
 
     with col2:
         if st.button("Forgot Password 🤔"):
@@ -57,6 +68,9 @@ def login():
     if status == True:
         st.success(f"Authenticated - Welcome, {name}!")
         print(f"Authenticated - Welcome, {name}!")
+        # Set session state variables
+        st.session_state["authenticated"] = "True"
+        st.session_state["username"] = username
     elif status == False:
         st.error("Authentication failed.")
         print("Authentication failed.")
