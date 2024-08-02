@@ -35,3 +35,17 @@ def daily_checkup(user_report):
         return response.choices[0].message.content
     except Exception as e:
             print(f"An error occurred: {e}")
+
+def llm(prompt, data):
+    """Function to interact with Falcon LLM with custom prompt and data."""
+    try:
+        response = client.chat.completions.create(
+            model="tiiuae/falcon-180B-chat",
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": data}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+            print(f"An error occurred: {e}")

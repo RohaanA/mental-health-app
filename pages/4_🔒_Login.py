@@ -19,15 +19,14 @@ authenticator = stauth.Authenticate(
 
 st.logo("logo.png")
 
-st.write(st.session_state)
-st.write(hashed_passwords)
+# st.write(st.session_state)
 
 name, authentication_status, username = authenticator.login()
 
 if authentication_status:
+    st.title(f'Welcome *{username}!*')
+    st.subheader('We hope you''l learn something new today from Dr. Falcon! 🧑‍⚕️')
     authenticator.logout('Logout', 'main')
-    st.write(f'Welcome *{name}*')
-    st.title('Some content')
 elif authentication_status == False:
     st.error('Username/password is incorrect')
 elif authentication_status == None:

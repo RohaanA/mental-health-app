@@ -1,4 +1,7 @@
 import streamlit as st
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
 from falcon import daily_checkup
 from utils import save_report
 
@@ -16,14 +19,23 @@ st.set_page_config(
 
 st.logo("logo.png")
 # Initializing Session state
+# Load configuration
+with open('config.yaml') as file:
+    config = yaml.load(file, Loader=SafeLoader)
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['pre-authorized']
+)
+
 
 if 'authentication_status' not in st.session_state:
     st.session_state['authentication_status'] = False
 
 if 'username' not in st.session_state:
     st.session_state['username'] = 'Undefined'
-    
-st.write(st.session_state)
 
 isAuth = st.session_state['authentication_status']
 
@@ -74,6 +86,13 @@ if (isAuth == True):
         placeholder="Write about your day, thoughts, or anything you'd like to express..."
     )
 
+
+    # Display the user's input
+    st.subheader("Your Input Summary:")
+    st.write(f"**Mood:** {moods[selected_mood]} {selected_mood}")
+    st.write(f"**Stress Level:** {stress_level}")
+    st.write(f"**Overall Well-being:** {well_being}")
+    st.write(f"**Additional Notes:** {notes}")
     # Submit Button
     if st.button("Submit"):
         # Compile the user's input into a report
@@ -93,12 +112,5 @@ if (isAuth == True):
         
         # Save the daily checkup in user's JSON file.
         save_report(username, user_report)
-
-    # Display the user's input
-    st.subheader("Your Input Summary:")
-    st.write(f"**Mood:** {moods[selected_mood]} {selected_mood}")
-    st.write(f"**Stress Level:** {stress_level}")
-    st.write(f"**Overall Well-being:** {well_being}")
-    st.write(f"**Additional Notes:** {notes}")
 else:
     st.error("Please login first!")

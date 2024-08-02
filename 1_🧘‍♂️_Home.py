@@ -23,8 +23,6 @@ if 'authenticated' not in st.session_state:
 
 if 'username' not in st.session_state:
     st.session_state['username'] = 'Undefined'
-
-st.write(st.session_state)
 # Load configuration
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -51,7 +49,7 @@ def main():
     col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("Login 🔐"):
-            st.switch_page("pages/login.py")
+            st.switch_page("pages/4_🔒_Login.py")
 
     with col2:
         if st.button("Forgot Password 🤔"):
