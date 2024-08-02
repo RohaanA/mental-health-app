@@ -27,3 +27,6 @@ def save_report(username, report):
     # Write the updated data back to the file
     with open(file_path, 'w') as file:
         json.dump(data, file, indent=4)
+
+def get_path(username):
+    return os.path.join('stats', f'{username}.json')
