@@ -1,5 +1,6 @@
 import streamlit as st
 from falcon import daily_checkup
+from utils import save_report
 
 st.set_page_config(
     page_title="MindfulNest",
@@ -13,6 +14,7 @@ st.set_page_config(
     }
 )
 
+st.logo("logo.png")
 # Initializing Session state
 
 if 'authentication_status' not in st.session_state:
@@ -86,8 +88,11 @@ if (isAuth == True):
         
         ai_response = daily_checkup(user_report)
         
-        st.subheader("Dr. Falcon's Response")
+        st.subheader("Dr. Falcon's Response 👨‍⚕️")
         st.write(ai_response)
+        
+        # Save the daily checkup in user's JSON file.
+        save_report(username, user_report)
 
     # Display the user's input
     st.subheader("Your Input Summary:")

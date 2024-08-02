@@ -21,7 +21,7 @@ client = openai.OpenAI(
 
 def daily_checkup(user_report):
     """Function to interact with Falcon LLM and display the response."""
-
+    return "test"
     try:
         response = client.chat.completions.create(
             model="tiiuae/falcon-180B-chat",

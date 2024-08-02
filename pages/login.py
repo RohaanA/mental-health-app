@@ -17,6 +17,8 @@ authenticator = stauth.Authenticate(
     config['pre-authorized']
 )
 
+st.logo("logo.png")
+
 st.write(st.session_state)
 st.write(hashed_passwords)
 

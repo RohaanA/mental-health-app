@@ -1,0 +1,21 @@
+credentials:
+  usernames:
+    rohaan:
+      email: rohaanpk3@gmail.com
+      failed_login_attempts: 0 
+      logged_in: False 
+      name: RohaanAtique
+      password: $2b$12$CG6CPjjXaLtTfN9dVe9pDOi8AECi07qKtxf3hUbfcjZ/jWkmkx2M.
+    adil:
+      email: adil.mubashir@gmail.com
+      failed_login_attempts: 0 
+      logged_in: False 
+      name: AdilMubashir
+      password: $2b$12$YzElsS7lDSe1o7IxjWGNXeEIPHXzkRWhUPlwM74JYNeXv.fp58jJ2 
+cookie:
+  expiry_days: 30
+  key: secure_string_here
+  name: mindfulnest_auth
+pre-authorized:
+  emails:
+  - honeyr697@gmail.com
