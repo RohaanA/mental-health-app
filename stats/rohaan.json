@@ -26,5 +26,13 @@
     {
         "timestamp": "2024-08-02T22:33:59.917842",
         "report": "\n            Mood: Happy \ud83d\ude0a\n            Stress Level: 0\n            Overall Well-being: Excellent\n            Notes: Happy Happy Happy\n            "
+    },
+    {
+        "timestamp": "2024-08-03T18:14:25.805788",
+        "report": "\n            Mood: Anxious \ud83d\ude30\n            Stress Level: 7\n            Overall Well-being: Poor\n            Notes: I have guests in my house, so I am feeling very anxious.\n            "
+    },
+    {
+        "timestamp": "2024-08-03T18:26:01.280213",
+        "report": "\n            Mood: Anxious \ud83d\ude30\n            Stress Level: 10\n            Overall Well-being: Poor\n            Notes: \n            "
     }
 ]
