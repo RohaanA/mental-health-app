@@ -5,7 +5,7 @@ import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
 
-from falcon import client
+from falcon import llm
 
 st.set_page_config(
     page_title="MindfulNest",
@@ -19,6 +19,18 @@ st.set_page_config(
     }
 )
 
+st.markdown("""
+            <style>
+                div[data-testid="column"] {
+                    width: fit-content !important;
+                    flex: unset;
+                }
+                div[data-testid="column"] * {
+                    width: fit-content !important;
+                }
+            </style>
+            """, unsafe_allow_html=True)
+
 st.logo("logo.png")
 # Initializing Session state
 if 'authentication_status' not in st.session_state:
@@ -30,8 +42,6 @@ if "journal_entries" not in st.session_state:
 
 if 'username' not in st.session_state:
     st.session_state['username'] = 'Undefined'
-    
-# st.write(st.session_state)
 
 isAuth = st.session_state['authentication_status']
 
@@ -41,8 +51,9 @@ def add_journal_entry(date, mood, content):
 
 if (isAuth == True):
     # Page layout
-    st.title("My Journal 📔")
-    st.write("Welcome to your personal journal. Write down your thoughts, track your moods, and reflect on your experiences.")
+    username = st.session_state['username']
+    st.title(f"My Journal 📔")
+    st.write(f"Welcome to your personal journal {username}. Write down your thoughts, track your moods, and reflect on your experiences.")
 
     # New Journal Entry Form
     st.subheader("New Entry")
@@ -64,13 +75,32 @@ if (isAuth == True):
         for idx, entry in enumerate(filtered_entries):
             st.write(f"**Date:** {entry['date']} | **Mood:** {entry['mood']}")
             st.write(entry["content"])
-            if st.button("Edit", key=f"edit_{idx}_{entry['date']}"):
-                # Logic to edit the entry
-                pass
-            if st.button("Delete", key=f"delete_{idx}_{entry['date']}"):
-                # Logic to delete the entry
-                st.session_state.journal_entries.remove(entry)
-                st.success("Entry deleted successfully!")
+            
+            # Create three columns for Edit, Delete, and Analyze buttons
+            col1, col2, col3 = st.columns([1,1,1])
+            
+            # Place the Edit button in the first column
+            with col1:
+                if st.button("Edit", key=f"edit_{idx}_{entry['date']}"):
+                    # Logic to edit the entry
+                    pass
+            
+            # Place the Delete button in the second column
+            with col2:
+                if st.button("Delete", key=f"delete_{idx}_{entry['date']}"):
+                    # Logic to delete the entry
+                    st.session_state.journal_entries.remove(entry)
+                    st.success("Entry deleted successfully!")
+            
+            # Place the Analyze button in the third column
+            with col3:
+                if st.button("Analyze", key=f"analyze_{idx}_{entry['date']}"):
+                    # Logic to analyze the entry
+                    prompt = f"You are Dr. Falcon. A mental health professional. Act like an expert in the field of mental health. A patient has come to you with the name {username}. Analyze their journal entry and provide insights."
+                    analysis = llm(prompt, entry["content"])
+                    st.write("**Analysis:**")
+                    st.write(analysis)
+
 
     else:
         st.write("No journal entries found.")
