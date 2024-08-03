@@ -3,7 +3,6 @@ import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
 
-
 # Load configuration
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -25,7 +24,7 @@ name, authentication_status, username = authenticator.login()
 
 if authentication_status:
     st.title(f'Welcome *{username}!*')
-    st.subheader('We hope you''l learn something new today from Dr. Falcon! 🧑‍⚕️')
+    st.subheader('We hope you\'ll learn something new today from Dr. Falcon! 🧑‍⚕️')
     authenticator.logout('Logout', 'main')
 elif authentication_status == False:
     st.error('Username/password is incorrect')

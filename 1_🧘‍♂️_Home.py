@@ -1,9 +1,11 @@
+import json
+
+import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
-import pandas as pd
-import json
+
 from utils import get_path
 
 st.set_page_config(
@@ -17,6 +19,7 @@ st.set_page_config(
         'About': "# This is a header. This is an *extremely* cool app!"
     }
 )
+st.logo("logo.png")
 
 # Initializing Session state
 if 'authenticated' not in st.session_state:
@@ -25,7 +28,7 @@ if 'authenticated' not in st.session_state:
 if 'username' not in st.session_state:
     st.session_state['username'] = 'Undefined'
 
-st.write(st.session_state)
+# st.write(st.session_state)
 
 # Load configuration
 with open('config.yaml') as file:
@@ -49,77 +52,70 @@ def main():
     MindfulNest is here to support your mental well-being. Whether you're feeling overwhelmed, anxious, or simply need a space to reflect, we're here to help. Explore various tools and resources designed to assist you on your mental health journey.
     """)
 
-    # Buttons for Login and Register
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("Login 🔐"):
-            st.switch_page("pages/login.py")
-
-    with col2:
-        if st.button("Forgot Password 🤔"):
-            forgot()
-
-    with col3:
-        if st.button("Register 📝"):
-            register()
-
     st.divider()
     
-    # Data Visualization Section
-    st.subheader("Mood Reports Data Visualization 📊")
+    isAuth = st.session_state['authentication_status']
 
-    # Refresh Data Button
-    refresh_data = st.button("Refresh Data 🔄")
-    if refresh_data:
-        st.session_state['data_loaded'] = False
+    if (isAuth == True):
+        # Data Visualization Section
+        st.subheader("Mood Reports Data Visualization 📊")
 
-    # Load JSON Data
-    if 'data_loaded' not in st.session_state or not st.session_state['data_loaded']:
-        try:
-            with open(get_path(st.session_state['username']), 'r') as f:
-                data = json.load(f)
+        # Refresh Data Button
+        refresh_data = st.button("Refresh Data 🔄")
+        if refresh_data:
+            st.session_state['data_loaded'] = False
 
-            # Convert JSON to DataFrame
-            df = pd.DataFrame(data)
+        # Load JSON Data
+        if 'data_loaded' not in st.session_state or not st.session_state['data_loaded']:
+            try:
+                with open(get_path(st.session_state['username']), 'r') as f:
+                    data = json.load(f)
 
-            # Apply the parsing function to each row
-            df[['Mood', 'Stress Level', 'Overall Well-being', 'Notes']] = df['report'].apply(parse_report).tolist()
-            df['timestamp'] = pd.to_datetime(df['timestamp'])
-            df.drop(columns=['report'], inplace=True)
+                # Convert JSON to DataFrame
+                df = pd.DataFrame(data)
 
-            # Store the DataFrame in session state to persist across refreshes
-            st.session_state['data'] = df
-            st.session_state['data_loaded'] = True
+                # Apply the parsing function to each row
+                df[['Mood', 'Stress Level', 'Overall Well-being', 'Notes']] = df['report'].apply(parse_report).tolist()
+                df['timestamp'] = pd.to_datetime(df['timestamp'])
+                df.drop(columns=['report'], inplace=True)
 
-        except Exception as e:
-            st.error(f"Error loading data: {e}")
+                # Store the DataFrame in session state to persist across refreshes
+                st.session_state['data'] = df
+                st.session_state['data_loaded'] = True
 
-    # Retrieve data from session state
-    df = st.session_state.get('data', pd.DataFrame())
+            except Exception as e:
+                st.error(f"Error loading data: {e}")
 
-    # Display the DataFrame
-    with st.expander("Data"):
-        st.write(df)
+        # Retrieve data from session state
+        df = st.session_state.get('data', pd.DataFrame())
 
-    # Visualization: Stress Level Over Time
-    st.write("### Stress Level Over Time")
-    st.line_chart(df.set_index('timestamp')['Stress Level'])
+        # Display the DataFrame
+        with st.expander("Data"):
+            st.write(df)
 
-    # Visualization Layout
-    col1, col2 = st.columns(2)
+        # Visualization: Stress Level Over Time
+        st.write("### Stress Level Over Time")
+        st.line_chart(df.set_index('timestamp')['Stress Level'])
 
-    with col1:
-        # Visualization: Mood Distribution
-        st.write("### Mood Distribution")
-        mood_counts = df['Mood'].value_counts()
-        st.bar_chart(mood_counts)
-        
+        # Visualization Layout
+        col1, col2 = st.columns(2)
 
-    with col2:
-        # Visualization: Overall Well-being Distribution
-        st.write("### Overall Well-being Distribution")
-        well_being_counts = df['Overall Well-being'].value_counts()
-        st.bar_chart(well_being_counts)
+        with col1:
+            # Visualization: Mood Distribution
+            st.write("### Mood Distribution")
+            mood_counts = df['Mood'].value_counts()
+            st.bar_chart(mood_counts)
+            
+
+        with col2:
+            # Visualization: Overall Well-being Distribution
+            st.write("### Overall Well-being Distribution")
+            well_being_counts = df['Overall Well-being'].value_counts()
+            st.bar_chart(well_being_counts)
+    else:
+        st.error("Please login first to view your metrics!")
+        if st.button("Login 🔐"):
+            st.switch_page("pages/4_🔒_Login.py")
 
 def login():
     st.subheader("Login 🔐")
