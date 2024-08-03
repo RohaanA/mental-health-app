@@ -7,6 +7,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 from utils import get_path
+from falcon import llm
 
 st.set_page_config(
     page_title="MindfulNest",
@@ -93,18 +94,19 @@ def main():
         with st.expander("Data"):
             st.write(df)
 
-        # Visualization: Stress Level Over Time
-        st.write("### Stress Level Over Time")
-        st.line_chart(df.set_index('timestamp')['Stress Level'])
+
 
         # Visualization Layout
         col1, col2 = st.columns(2)
 
         with col1:
-            # Visualization: Mood Distribution
-            st.write("### Mood Distribution")
-            mood_counts = df['Mood'].value_counts()
-            st.bar_chart(mood_counts)
+            st.write("### Data Summary")
+            st.markdown(summarize_data())
+
+
+            # Visualization: Stress Level Over Time
+            st.write("### Stress Level Over Time")
+            st.line_chart(df.set_index('timestamp')['Stress Level'])    
             
 
         with col2:
@@ -112,6 +114,12 @@ def main():
             st.write("### Overall Well-being Distribution")
             well_being_counts = df['Overall Well-being'].value_counts()
             st.bar_chart(well_being_counts)
+
+            # Visualization: Mood Distribution
+            st.write("### Mood Distribution")
+            mood_counts = df['Mood'].value_counts()
+            st.bar_chart(mood_counts)
+
     else:
         st.error("Please login first to view your metrics!")
         if st.button("Login 🔐"):
@@ -158,6 +166,21 @@ def parse_report(report):
         elif "Notes:" in line:
             notes = line.split("Notes:")[1].strip()
     return mood, stress_level, well_being, notes
+
+def summarize_data():
+    try:
+        # Load JSON file and convert to string
+        with open(get_path(st.session_state['username']), 'r') as f:
+            json_data = json.load(f)
+            data_str = json.dumps(json_data)
+
+        # Call the llm function
+        prompt = "Summarize the Data and provide insignts. In particular focus on the mood distribution, stress level over time, and overall well-being distribution. Compare Recent mood levels with previous"
+        response = llm(prompt, data_str)
+        return response
+    
+    except Exception as e:
+        st.error(e)
 
 if __name__ == "__main__":
     main()
