@@ -29,16 +29,18 @@ if 'username' not in st.session_state:
 
 isAuth = st.session_state['authentication_status']
 
-if (isAuth == False):
-    def register_user(user_info):
-        print(user_info)
-        pass
-    st.title("Register User 📝")
-    try:
-        email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False, callback=register_user)
-        if email_of_registered_user:
-            st.success('User registered successfully')
-    except Exception as e:
-        st.error(e)
-else:
-    st.error("You're already logged in!")
+# if (isAuth == False):
+#     def register_user(user_info):
+#         print(user_info)
+#         pass
+#     st.title("Register User 📝")
+#     try:
+#         email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False, callback=register_user)
+#         if email_of_registered_user:
+#             st.success('User registered successfully')
+#     except Exception as e:
+#         st.error(e)
+# else:
+st.error("❌ Registration currently not functional. Please use \'rohaan\' as both the username and password to log in.")
+if st.button('🔒Login'):
+    st.switch_page("pages/4_🔒_Login.py")

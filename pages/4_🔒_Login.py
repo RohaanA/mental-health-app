@@ -29,5 +29,5 @@ if authentication_status:
 elif authentication_status == False:
     st.error('Username/password is incorrect')
 elif authentication_status == None:
-    st.warning('Please enter your username and password')
+    st.warning('Please enter \'rohaan\' (without quotes) as both username and password to login')
 
