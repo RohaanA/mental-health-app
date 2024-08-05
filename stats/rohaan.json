@@ -9,7 +9,7 @@
     },
     {
         "timestamp": "2024-07-04T21:42:13.743856",
-        "report": "\n            Mood: Angry \ud83d\ude21\n            Stress Level: 7\n            Overall Well-being: Poor\n            Notes: Bad manager stupid manager he act very sus\n            "
+        "report": "\n            Mood: Angry \ud83d\ude21\n            Stress Level: 7\n            Overall Well-being: Poor\n            Notes: Bad manager \n            "
     },
     {
         "timestamp": "2024-07-05T22:05:53.176014",
@@ -21,18 +21,22 @@
     },
     {
         "timestamp": "2024-07-07T22:11:40.459458",
-        "report": "\n            Mood: Relaxed \ud83d\ude0c\n            Stress Level: 10\n            Overall Well-being: Good\n            Notes: I am banana fish\n            "
+        "report": "\n            Mood: Relaxed \ud83d\ude0c\n            Stress Level: 10\n            Overall Well-being: Good\n            Notes: Got promoted today!\n            "
     },
     {
         "timestamp": "2024-07-08T22:33:59.917842",
-        "report": "\n            Mood: Happy \ud83d\ude0a\n            Stress Level: 7\n            Overall Well-being: Excellent\n            Notes: Happy Happy Happy\n            "
+        "report": "\n            Mood: Happy \ud83d\ude0a\n            Stress Level: 7\n            Overall Well-being: Excellent\n            Notes: Its my birthday!\n            "
     },
     {
         "timestamp": "2024-07-09T18:14:25.805788",
-        "report": "\n            Mood: Anxious \ud83d\ude30\n            Stress Level: 6\n            Overall Well-being: Poor\n            Notes: I have guests in my house, so I am feeling very anxious.\n            "
+        "report": "\n            Mood: Anxious \ud83d\ude30\n            Stress Level: 6\n            Overall Well-being: Poor\n            Notes: I have a fever, so I am feeling very anxious.\n            "
     },
     {
         "timestamp": "2024-07-10T18:26:01.280213",
         "report": "\n            Mood: Anxious \ud83d\ude30\n            Stress Level: 5\n            Overall Well-being: Poor\n            Notes: \n            "
+    },
+    {
+        "timestamp": "2024-08-05T15:52:50.119443",
+        "report": "\n            Mood: Anxious \ud83d\ude30\n            Stress Level: 7\n            Overall Well-being: Fair\n            Notes: I am feeling anxious due to guests at my house.\n            "
     }
 ]
